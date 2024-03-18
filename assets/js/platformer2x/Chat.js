@@ -1,4 +1,5 @@
 import Multiplayer from './Multiplayer.js'
+import GameEnv from './GameEnv.js';
 import createSound from './Sound.js';
 /**
  * Prevents players from typing no-no words in the chat.
@@ -13,7 +14,8 @@ class Chat {
         '911', 'die', 'luigi', 'peach', 'bowser', 'mario', 
         'mr.mortensen', 'mr. mortensen', 'mortensen', 'lopez', 
         'mr.lopez', 'mr. lopez','mister mortensen', 'mister lopez', 
-        'aws', 'amazonwebservices', 'amazon', 'amazonweb'];
+        'aws', 'amazonwebservices', 'amazon', 'amazonweb', 'travis is the best',
+         'travis sucks at coding', 'im the best', 'im better than travis'];
 
         this.prohibitedWords.concat(wordsToAdd);
     }
@@ -29,7 +31,14 @@ class Chat {
     parseMessage(message){
         this.prohibitedWords.forEach(word => {
             const regex = new RegExp('\\b' + word + '\\b', 'gi');
-            message = message.replace(regex, 'I Love CSSE! '.repeat(word.length));
+            if(word == 'travis is the best'){
+                message = message.replace(regex, word + ' IS SO TRUE! ');
+                GameEnv.cheatInvincible = true;
+            }else if(word == 'travis sucks at coding' || word == 'im the best' || word == 'im better than travis'){
+                message = message.replace(regex, 'I AM SO BAD AT CODING');
+            }else{
+                message = message.replace(regex, 'I Love CSSE! '.repeat(word.length));
+            }
         });
         return message;
     }

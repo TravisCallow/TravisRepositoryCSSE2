@@ -33,6 +33,7 @@ export class GameEnv {
      * @property {Array} gameObjects - used by GameControl
      * @property {boolean} isInverted - localstorage key, canvas filter property, used by GameControl
      * @property {boolean} invincible - invincibility for the mario when stomping on Goomba
+     * @property {boolean} cheatInvincible - invincibility when you say that travis is the best coder
      * @property {boolean} goombaInvincible - invincibility for the goomba when mario touch
      * @property {boolean} goombaBounce - mario touch goomba --> bounce
      * @property {boolean} goombaBounce1 - bounce on mushroom
@@ -151,6 +152,11 @@ export class GameEnv {
                 gameObject.serialize();
                 gameObject.draw();
             } 
+        }
+        if(this.cheatInvincible === true){
+            this.invincible = true;
+            this.isInverted = true;
+            this.setInvert();
         }
     }
   

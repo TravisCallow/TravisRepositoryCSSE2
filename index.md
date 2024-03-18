@@ -40,10 +40,52 @@ hide: true
     background-position: calc({{animations[0].col}} * {{pixels}} * -1px) calc({{animations[0].row}} * {{pixels}}* -1px);
   }
 </style>
-
+<body>
+  <p id='speech' style='display: none; background-position: -2816px -3072px; padding: 5px; position: absolute; background-color: #00000088; border-radius: 10px 10px 10px 10px'>HELLO!</p>     
+</body>
 <!--- Embedded executable code--->
 <script>
   ////////// convert YML hash to javascript key:value objects /////////
+  var wordList = ["Hello Im Mario!", "Travis is the best coder", "You should give Travis an A+ for his hard work!", "Did you know racecar spelled backwards is racecar?", "Canvas is annoying to code in.", "Guess what...     CHICKEN BUTT!", "This is fun.", 'Hola, hi, hallo, Privet, Nǐ hǎo, Ciao, Anyoung'];
+  function getCSS(element) {
+    var text = document.getElementById("speech");
+    let css_data = '';
+    let css_obj = getComputedStyle(element);
+    for (let i = 0; i < css_obj.length; i++) {
+        css_data +=
+            css_obj[i] + ':' +
+            css_obj.getPropertyValue(css_obj[i])
+            + ';<br>';
+        if(css_obj[i] == "top"){
+          console.log("RAN CODE");
+          var currentValue = css_obj.getPropertyValue(css_obj[i]);
+          var currentValueAsNumber = parseInt(currentValue);
+          var newValue = currentValueAsNumber + 70;
+          console.log(currentValue);
+          console.log(newValue);
+          text.style.top = newValue + 'px';
+        }
+        if(css_obj[i] == "left"){
+          var currentValue = css_obj.getPropertyValue(css_obj[i]);
+          var currentValueAsNumber = parseInt(currentValue);
+          var newValue = currentValueAsNumber + 100;
+          console.log(newValue + 'px');
+          text.style.left = newValue + 'px';
+        }
+    }
+  }
+  function toggleText() {
+    var text = document.getElementById("speech");
+    if (text.style.display === "none") {
+      text.style.display = "block";
+      var speech = wordList[Math.floor(Math.random()*wordList.length)];
+      console.log(speech);
+      text.innerHTML = speech;
+      getCSS(document.getElementById('mario'));
+    } else {
+      text.style.display = "none";
+    }
+  }
 
   var mario_metadata = {}; //key, value object
   {% for key in hash %}  
@@ -91,9 +133,9 @@ hide: true
       }, this.interval);
     }
 
-    startWalking() {
+    startWalking(speed) {
       this.stopAnimate();
-      this.animate(this.obj["Walk"], 3);
+      this.animate(this.obj["Walk"], speed);
     }
 
     startRunning() {
@@ -136,8 +178,8 @@ hide: true
       if (event.repeat) {
         mario.startCheering();
       } else {
-        if (mario.currentSpeed === 0) {
-          mario.startWalking();
+        if (mario.currentSpeed <= 0) {
+          mario.startWalking(3);
         } else if (mario.currentSpeed === 3) {
           mario.startRunning();
         }
@@ -147,7 +189,26 @@ hide: true
       if (event.repeat) {
         mario.stopAnimate();
       } else {
-        mario.startPuffing();
+        if(mario.currentSpeed >= 0){
+          mario.startWalking(-3);
+        }else if(mario.currentSpeed === -3){
+          mario.startPuffing();
+        }
+      }
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (event.repeat) {
+        mario.stopAnimate();
+      } else {
+        mario.startFlipping();
+      }
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      if (event.repeat) {
+        mario.stopAnimate();
+      } else {
+        mario.startCheering();
+        toggleText();
       }
     }
   });
@@ -157,14 +218,18 @@ hide: true
     event.preventDefault(); // prevent default browser action
     if (event.touches[0].clientX > window.innerWidth / 2) {
       // move right
-      if (currentSpeed === 0) { // if at rest, go to walking
-        mario.startWalking();
+      if (currentSpeed <= 0) { // if at rest, go to walking
+        mario.startWalking(3);
       } else if (currentSpeed === 3) { // if walking, go to running
         mario.startRunning();
       }
     } else {
       // move left
-      mario.startPuffing();
+      if(mario.currentSpeed >= 0){
+        mario.startWalking(-3);
+      }else if(mario.currentSpeed === -3){
+        mario.startPuffing();
+      }
     }
   });
 

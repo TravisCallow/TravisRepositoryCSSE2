@@ -21,7 +21,7 @@ export class Player extends Character {
         GameEnv.invincible = false; 
 
         // Player control data
-        this.moveSpeed = this.speed * 3;
+        this.moveSpeed = this.speed * 10;
         this.pressedKeys = {};
         this.movement = {up: true, down: true, left: true, right: true};
         this.isIdle = true;
@@ -151,11 +151,11 @@ export class Player extends Character {
 
         // Player moving right 
         if (this.isActiveAnimation("a")) {
-            if (this.movement.left) this.x -= this.isActiveAnimation("s") ? this.moveSpeed : this.speed;  // Move to left
+            if (this.movement.left) this.x -= this.isActiveAnimation("s") ? this.moveSpeed : this.speed*2;  // Move to left
         }
         // Player moving left
         if (this.isActiveAnimation("d")) {
-            if (this.movement.right) this.x += this.isActiveAnimation("s") ? this.moveSpeed : this.speed;  // Move to right
+            if (this.movement.right) this.x += this.isActiveAnimation("s") ? this.moveSpeed : this.speed*2;  // Move to right
         }
         // Player moving at dash speed left or right 
         if (this.isActiveAnimation("s")) {}
