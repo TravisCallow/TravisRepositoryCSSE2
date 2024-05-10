@@ -15,8 +15,11 @@ export class Leaderboard{
         th1.innerText = "Name";
         header.append(th1);
         var th2 = document.createElement("th");
-        th2.innerText = "Score";
+        th2.innerText = "Time";
         header.append(th2);
+        var th3 = document.createElement("th");
+        th3.innerText = "Score";
+        header.append(th3);
         t.append(header);
 
         this.table = t;
@@ -30,8 +33,8 @@ export class Leaderboard{
 
         // Sort scores from lowest to highest
         timeScores.sort((a, b) => a.time - b.time);
-
-        console.log(timeScores,this.key)
+        console.log(timeScores);
+        console.log(timeScores,this.key);
 
         // Get the existing table element
         const table = this.table;
@@ -45,12 +48,16 @@ export class Leaderboard{
         th1.innerText = "Name";
         header.append(th1);
         var th2 = document.createElement("th");
-        th2.innerText = "Score";
+        th2.innerText = "Time";
         header.append(th2);
+        var th3 = document.createElement("th");
+        th3.innerText = "Score";
+        header.append(th3);
         table.append(header);
 
         // Populate the table with time scores
         timeScores.forEach(score => {
+            console.log(score);
             var row = document.createElement("tr");
             var td1 = document.createElement("td");
             td1.innerText = score.userID;
@@ -58,6 +65,9 @@ export class Leaderboard{
             var td2 = document.createElement("td");
             td2.innerText = score.time;
             row.append(td2);
+            var td3 = document.createElement("td");
+            td3.innerText = score.userScore;
+            row.append(td3);
             table.append(row);
         });
     }
@@ -73,6 +83,7 @@ export class Leaderboard{
             const confirmed = confirm("Are you sure you want to clear the leaderboard?");
             if (confirmed) {
                 localStorage.clear();
+                GameEnv.userScore = 0;
                 this.updateLeaderboardTable();
             }
         });

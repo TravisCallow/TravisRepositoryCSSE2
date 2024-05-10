@@ -32,7 +32,7 @@ class Chat {
         this.prohibitedWords.forEach(word => {
             const regex = new RegExp('\\b' + word + '\\b', 'gi');
             if(word == 'travis is the best'){
-                message = message.replace(regex, word + ' IS SO TRUE! ');
+                message = message.replace(regex, 'Im invincible!');
                 GameEnv.cheatInvincible = true;
             }else if(word == 'travis sucks at coding' || word == 'im the best' || word == 'im better than travis'){
                 message = message.replace(regex, 'I AM SO BAD AT CODING');

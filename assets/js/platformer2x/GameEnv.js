@@ -53,6 +53,7 @@ export class GameEnv {
      * @property {number} bottom - used by platformer objects
      * @property {number} prevBottom - used by platformer objects
      * @property {number} time - Initialize time variable, used by timer objects
+     * @property {number} userScore - Initialize score variable
      * @property {number} timerInterval - Variable to hold the interval reference, used by timer objects
      */
     static userID = "Guest";
@@ -80,6 +81,8 @@ export class GameEnv {
     static goombaInvincible = false;
     static goombaBounce = false;
     static goombaBounce1 = false;
+    static userScore = 0;
+    //static userScore = 0;
 
 
     
